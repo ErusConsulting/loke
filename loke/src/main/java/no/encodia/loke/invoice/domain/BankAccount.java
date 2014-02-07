@@ -28,7 +28,7 @@ public final class BankAccount {
             throw new IllegalArgumentException("Account number must be numerical");
         }
 
-        if(accountNumber.length() == 11) {
+        if(accountNumber.length() != 11) {
             throw new IllegalArgumentException("Account number must be exactly 11 digits");
         }
 
