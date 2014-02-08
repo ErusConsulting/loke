@@ -1,5 +1,7 @@
 package no.encodia.loke.invoice.domain;
 
+import org.joda.time.DateTime;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,8 +10,8 @@ public class TextualInvoice implements InvoiceWithFlags {
 
     private InvoiceId id;
 
-    private Date invoiceDate;
-    private Date dueDate;
+    private DateTime invoiceDate;
+    private DateTime dueDate;
 
     private double amount;
 
@@ -20,7 +22,7 @@ public class TextualInvoice implements InvoiceWithFlags {
 
     private List<InvoiceFlag> flags;
 
-    public TextualInvoice(InvoiceId id, Date invoiceDate, Date dueDate, double amount, String creditor, BankAccount creditorAccount, PaymentIdentifier paymentIdentifier, InvoiceFlag... flags) {
+    private TextualInvoice(InvoiceId id, DateTime invoiceDate, DateTime dueDate, double amount, String creditor, BankAccount creditorAccount, PaymentIdentifier paymentIdentifier, InvoiceFlag... flags) {
         this.id = id;
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
