@@ -22,7 +22,7 @@ public class TextualInvoice implements InvoiceWithFlags {
 
     private List<InvoiceFlag> flags;
 
-    private TextualInvoice(InvoiceId id, DateTime invoiceDate, DateTime dueDate, double amount, String creditor, BankAccount creditorAccount, PaymentIdentifier paymentIdentifier, InvoiceFlag... flags) {
+    public TextualInvoice(InvoiceId id, DateTime invoiceDate, DateTime dueDate, double amount, String creditor, BankAccount creditorAccount, PaymentIdentifier paymentIdentifier, InvoiceFlag... flags) {
         this.id = id;
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
@@ -36,8 +36,23 @@ public class TextualInvoice implements InvoiceWithFlags {
     public InvoiceId getId() {
         return id;
     }
+    public DateTime getInvoiceDate() { return invoiceDate; }
+    public DateTime getDueDate() { return dueDate; }
 
     public Iterable<InvoiceFlag> getFlags() {
         return flags;
+    }
+
+    public String toString() {
+        return "TextualInvoice{" +
+                "id=" + id +
+                ", invoiceDate=" + invoiceDate +
+                ", dueDate=" + dueDate +
+                ", amount=" + amount +
+                ", creditor='" + creditor + '\'' +
+                ", creditorAccount=" + creditorAccount +
+                ", paymentIdentifier=" + paymentIdentifier +
+                ", flags=" + flags +
+                '}';
     }
 }

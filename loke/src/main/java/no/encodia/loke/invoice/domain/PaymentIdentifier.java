@@ -1,6 +1,6 @@
 package no.encodia.loke.invoice.domain;
 
-interface PaymentIdentifier {
+public interface PaymentIdentifier {
     String getTitle();
     String getValue();
 }
