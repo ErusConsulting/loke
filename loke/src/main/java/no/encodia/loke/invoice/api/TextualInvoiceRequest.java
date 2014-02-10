@@ -26,18 +26,29 @@ public class TextualInvoiceRequest {
 
     public TextualInvoice build() {
 
-        PaymentIdentifier paymentIdentifier;
-        if("kid".equalsIgnoreCase(identifier.getType())) {
-            paymentIdentifier = new KidIdentifier(identifier.getValue());
-        }
-        else {
-            paymentIdentifier = new MessageIdentifier(identifier.getValue());
-        }
+        PaymentIdentifierFactory paymentIdentifierFactory = new PaymentIdentifierFactory();
 
         return new TextualInvoice(new InvoiceId(),
                 DateTime.parse(invoiceDate), DateTime.parse(dueDate),
                 amount,
                 creditor.getName(), BankAccount.createBankAccount(creditor.getAccount()),
-                paymentIdentifier);
+                paymentIdentifierFactory.createFrom(identifier));
+    }
+
+    private class PaymentIdentifierFactory {
+
+        public PaymentIdentifier createFrom(Identifier identifier) {
+
+            if(isKidIdentifier(identifier)) {
+                return new KidIdentifier(identifier.getValue());
+            }
+            else {
+                return new MessageIdentifier(identifier.getValue());
+            }
+        }
+
+        private boolean isKidIdentifier(Identifier identifier) {
+            return "kid".equalsIgnoreCase(identifier.getType());
+        }
     }
 }
