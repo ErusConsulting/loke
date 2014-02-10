@@ -10,31 +10,28 @@ public class TextualInvoiceRequest {
     @JsonProperty private final String dueDate;
     @JsonProperty private final double amount;
     @JsonProperty private final Creditor creditor;
-    @JsonProperty private final String identifierType;
-    @JsonProperty private final String identifierValue;
+    @JsonProperty private final Identifier identifier;
 
     public TextualInvoiceRequest(@JsonProperty("invoiceDate") String invoiceDate,
                                  @JsonProperty("dueDate") String dueDate,
                                  @JsonProperty("amount") double amount,
                                  @JsonProperty("creditor") Creditor creditor,
-                                 @JsonProperty("identifierType") String identifierType,
-                                 @JsonProperty("identifierValue") String identifierValue) {
+                                 @JsonProperty("identifier") Identifier identifier) {
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
         this.amount = amount;
         this.creditor = creditor;
-        this.identifierType = identifierType;
-        this.identifierValue = identifierValue;
+        this.identifier = identifier;
     }
 
     public TextualInvoice build() {
 
         PaymentIdentifier paymentIdentifier;
-        if("kid".equalsIgnoreCase(identifierType)) {
-            paymentIdentifier = new KidIdentifier(identifierValue);
+        if("kid".equalsIgnoreCase(identifier.getType())) {
+            paymentIdentifier = new KidIdentifier(identifier.getValue());
         }
         else {
-            paymentIdentifier = new MessageIdentifier(identifierValue);
+            paymentIdentifier = new MessageIdentifier(identifier.getValue());
         }
 
         return new TextualInvoice(new InvoiceId(),
