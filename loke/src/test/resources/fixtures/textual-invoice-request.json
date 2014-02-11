@@ -1,0 +1,13 @@
+{
+    "invoiceDate": "2013-12-04",
+    "dueDate": "2014-01-10",
+    "amount": "13.37",
+    "creditor": {
+        "name": "Kreditoren",
+        "account": "12345678901"
+    },
+    "identifier": {
+        "type": "kid",
+        "value": "12345678"
+    }
+}

@@ -25,4 +25,24 @@ public class Creditor {
     public String getAccount() {
         return account;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Creditor creditor = (Creditor) o;
+
+        if (!account.equals(creditor.account)) return false;
+        if (!name.equals(creditor.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + account.hashCode();
+        return result;
+    }
 }

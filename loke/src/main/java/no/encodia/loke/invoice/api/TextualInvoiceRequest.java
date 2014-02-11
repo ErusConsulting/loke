@@ -35,6 +35,35 @@ public class TextualInvoiceRequest {
                 paymentIdentifierFactory.createFrom(identifier));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TextualInvoiceRequest that = (TextualInvoiceRequest) o;
+
+        if (Double.compare(that.amount, amount) != 0) return false;
+        if (!creditor.equals(that.creditor)) return false;
+        if (!dueDate.equals(that.dueDate)) return false;
+        if (!identifier.equals(that.identifier)) return false;
+        if (!invoiceDate.equals(that.invoiceDate)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = invoiceDate.hashCode();
+        result = 31 * result + dueDate.hashCode();
+        temp = Double.doubleToLongBits(amount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + creditor.hashCode();
+        result = 31 * result + identifier.hashCode();
+        return result;
+    }
+
     private class PaymentIdentifierFactory {
 
         public PaymentIdentifier createFrom(Identifier identifier) {

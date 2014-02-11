@@ -7,7 +7,6 @@ import no.encodia.loke.invoice.api.TextualInvoiceRequest;
 import no.encodia.loke.invoice.domain.InvoiceWithFlags;
 import no.encodia.loke.invoice.domain.TextualInvoice;
 
-import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
