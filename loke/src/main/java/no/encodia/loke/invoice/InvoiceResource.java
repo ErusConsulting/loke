@@ -4,15 +4,15 @@ import com.google.common.base.Function;
 import com.yammer.metrics.annotation.Timed;
 import no.encodia.loke.invoice.api.InvoiceRepresentation;
 import no.encodia.loke.invoice.api.TextualInvoiceRequest;
+import no.encodia.loke.invoice.domain.InvoiceId;
 import no.encodia.loke.invoice.domain.InvoiceWithFlags;
 import no.encodia.loke.invoice.domain.TextualInvoice;
+import org.joda.time.DateTime;
 
 import javax.validation.Valid;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +23,9 @@ import static com.google.common.collect.Lists.transform;
 public class InvoiceResource {
 
     private final List<InvoiceWithFlags> invoices;
+
+    @Context
+    UriInfo uriInfo;
 
     public InvoiceResource() {
         invoices = new ArrayList<>();
@@ -38,12 +41,30 @@ public class InvoiceResource {
         });
     }
 
+    @GET
+    @Path("/{id}")
+    @Timed
+    public InvoiceRepresentation getInvoice(@PathParam("id") String id) {
+        InvoiceId invoiceId = new InvoiceId(id);
+
+        for(InvoiceWithFlags invoice : invoices) {
+            if(invoice.getId().equals(invoiceId)) {
+                return InvoiceRepresentation.map((TextualInvoice) invoice);
+            }
+        }
+
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
+    }
+
     @POST
     @Timed
-    public void createInvoice(@Valid TextualInvoiceRequest invoiceRequest) {
+    public Response createInvoice(@Valid TextualInvoiceRequest invoiceRequest) {
         TextualInvoice invoice = invoiceRequest.build();
-
-        System.out.println("Received invoice request: " + invoice);
         invoices.add(invoice);
+
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI invoiceUri = ub.path(invoice.getId().value()).build();
+
+        return Response.created(invoiceUri).build();
     }
 }
