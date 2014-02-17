@@ -62,11 +62,12 @@ public class InvoiceResource {
         TextualInvoice invoice = invoiceRequest.build();
         invoices.add(invoice);
 
-        // We'd prefer to use uriInfo.getAbsolutePathBuilder,
+        // We'd prefer to use just uriInfo.getAbsolutePathBuilder(),
         // but that caused problems when wired up in a test container.
         // See http://stackoverflow.com/a/13704308 for more info.
-        UriBuilder ub = uriInfo.getBaseUriBuilder();
-        URI invoiceUri = ub.path("/invoices/" + invoice.getId().value()).build();
+        URI invoiceUri = uriInfo.getBaseUriBuilder()
+                .uri(uriInfo.getAbsolutePathBuilder().path(invoice.getId().value()).build())
+                .build();
 
         return Response.created(invoiceUri).build();
     }
