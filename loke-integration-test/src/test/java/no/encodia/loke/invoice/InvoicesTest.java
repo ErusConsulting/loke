@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Integration tests, testing the contract for {@link no.encodia.loke.invoice.InvoiceResource}
  */
-public class InvoiceResourceTest extends ResourceTest {
+public class InvoicesTest extends ResourceTest {
 
     @Override
     protected void setUpResources() throws Exception {
