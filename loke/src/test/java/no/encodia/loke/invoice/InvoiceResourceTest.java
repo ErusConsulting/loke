@@ -15,6 +15,9 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Integration tests, testing the contract for {@link no.encodia.loke.invoice.InvoiceResource}
+ */
 public class InvoiceResourceTest extends ResourceTest {
 
     @Override
@@ -39,6 +42,18 @@ public class InvoiceResourceTest extends ResourceTest {
         assertThat("Retrieval of invoices yields 200 OK",
                 invoiceResponse.getClientResponseStatus(),
                 is(equalTo(ClientResponse.Status.OK)));
+    }
+
+    @Test
+    public void canNotGetNonExistingInvoice() throws Exception {
+
+        ClientResponse response = client()
+                .resource("/invoices/test-foobar")
+                .get(ClientResponse.class);
+
+        assertThat("Retrieval of non-existing invoice gives 404 Not found",
+                response.getClientResponseStatus(),
+                is(equalTo(ClientResponse.Status.NOT_FOUND)));
     }
 
 }
